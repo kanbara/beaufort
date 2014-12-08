@@ -1,0 +1,24 @@
+{
+  "name": "beaufort",
+  "version": "0.0.0",
+  "description": "beaufort scale convertor",
+  "main": "beaufort.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kanbara/beaufort.git"
+  },
+  "keywords": [
+    "wind",
+    "wind speed",
+    "beaufort"
+  ],
+  "author": "Jay Morrow <takuya813@gmail.com> (http://github.com/kanbara)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kanbara/beaufort/issues"
+  },
+  "homepage": "https://github.com/kanbara/beaufort"
+}
