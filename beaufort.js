@@ -1,4 +1,4 @@
-var windDesc = [
+var windName = [
                "calm", 
                "light air", 
                "light breeze", 
@@ -42,24 +42,24 @@ numberFromMps = function(mps) {
   return numberFromKmh(kmh);
 }
 
-descFromKmh = function(kmh) {
-  return descFromNumber(numberFromKmh(kmh));
+nameFromKmh = function(kmh) {
+  return nameFromNumber(numberFromKmh(kmh));
 }
 
-descFromMps = function(mps) {
+nameFromMps = function(mps) {
   // convert to kmh because we already defined the kmh scale
   var kmh = mps * 3.6;
-  return descFromKmh(kmh);
+  return nameFromKmh(kmh);
 }
 
-descFromNumber = function(beauNum) {
-  if(beauNum > windDesc.length) return "";
+nameFromNumber = function(beauNum) {
+  if(beauNum > windName.length) return "";
 
-  return windDesc[beauNum];
+  return windName[beauNum];
 }
 
-exports.descFromKmh = descFromKmh;
+exports.nameFromKmh = nameFromKmh;
 exports.numberFromKmh = numberFromKmh;
-exports.descFromMps = descFromMps;
+exports.nameFromMps = nameFromMps;
 exports.numberFromMps = numberFromMps;
 
