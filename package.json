@@ -1,6 +1,6 @@
 {
   "name": "beaufort",
-  "version": "1.1.1",
+  "version": "1.2.1",
   "description": "beaufort scale convertor",
   "main": "beaufort.js",
   "scripts": {
@@ -16,7 +16,7 @@
     "beaufort"
   ],
   "author": "Jay Morrow <takuya813@gmail.com> (http://github.com/kanbara)",
-  "license": "MIT",
+  "license": "Apache",
   "bugs": {
     "url": "https://github.com/kanbara/beaufort/issues"
   },

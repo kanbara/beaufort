@@ -29,6 +29,7 @@ var kmhLimits = [1,6,11,19,30,39,50,61,74,87,102,117,177,249,332,418];
 //         Cat3/4: 13
 //         Cat5  : 14
 //
+
 numberFromKmh = function(kmh) {
   var beauNum = kmhLimits.reduce(function(previousValue, currentValue, index, array) {
     return previousValue + (kmh > currentValue ? 1 : 0);
@@ -37,29 +38,43 @@ numberFromKmh = function(kmh) {
   return beauNum;
 }
 
-numberFromMps = function(mps) {
-  var kmh = mps * 3.6; // scale factor, 1km/1000m * 3600s/hr
-  return numberFromKmh(kmh);
-}
-
-nameFromKmh = function(kmh) {
-  return nameFromNumber(numberFromKmh(kmh));
-}
-
-nameFromMps = function(mps) {
-  // convert to kmh because we already defined the kmh scale
-  var kmh = mps * 3.6;
-  return nameFromKmh(kmh);
-}
-
 nameFromNumber = function(beauNum) {
   if(beauNum > windName.length) return "";
 
   return windName[beauNum];
 }
 
-exports.nameFromKmh = nameFromKmh;
-exports.numberFromKmh = numberFromKmh;
-exports.nameFromMps = nameFromMps;
-exports.numberFromMps = numberFromMps;
+valOrDefault = function(val, def) {
+  if(def === undefined) def = "";
+  return val === undefined ? def : val;
+}
 
+module.exports = function(speed, data) {
+  
+  // no behaviour for missing parameters...
+  if(speed === undefined) return undefined;
+
+  // if we have no json we at least want to set up the 
+  // data object. This allows valOrDefault() to work
+  if(data === undefined) data = {};
+
+  var unit = valOrDefault(data.unit, 'kmh');
+  var getName = valOrDefault(data.getName, true);
+
+  var beauNum = undefined;
+
+  switch (unit)
+  {
+    case 'kmh':
+      beauNum = numberFromKmh(speed);
+      break;
+    case 'mps':
+      speed *= 3.6;
+      beauNum = numberFromKmh(speed);
+  }
+
+  if(getName) return nameFromNumber(beauNum);
+
+  return beauNum;
+
+};
