@@ -16,7 +16,7 @@
     "beaufort"
   ],
   "author": "Jay Morrow <takuya813@gmail.com> (http://github.com/kanbara)",
-  "license": "Apache",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/kanbara/beaufort/issues"
   },
