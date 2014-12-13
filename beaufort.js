@@ -16,7 +16,7 @@ var windName = [
 // each array element is the max windspeed in kmh for that beaufort 
 // number (starting with 1)
 // http://about.metservice.com/assets/downloads/learning/winds_poster_web.pdf
-var kmhLimits = [1,6,11,19,30,39,50,61,74,87,102,117,177,249,332,418];
+var kmhLimits = [1,6,11,19,30,39,50,61,74,87,102,117,177,249,332,418,512];
 
 // input is kmh, output is beaufort number
 // initialValue is 0 so we can safely add to it to get the reduce.
@@ -31,6 +31,9 @@ var kmhLimits = [1,6,11,19,30,39,50,61,74,87,102,117,177,249,332,418];
 //
 
 numberFromKmh = function(kmh) {
+  // undefined for negative values...
+  if(kmh < 0 || kmh == undefined) return undefined;
+
   var beauNum = kmhLimits.reduce(function(previousValue, currentValue, index, array) {
     return previousValue + (kmh > currentValue ? 1 : 0);
   },0);
@@ -39,27 +42,39 @@ numberFromKmh = function(kmh) {
 }
 
 nameFromNumber = function(beauNum) {
-  if(beauNum > windName.length) return "";
+  if(beauNum > windName.length || 
+      beauNum == undefined) 
+  {
+    return undefined;
+  }
 
   return windName[beauNum];
 }
 
-valOrDefault = function(val, def) {
-  if(def === undefined) def = "";
-  return val === undefined ? def : val;
+valOrDefault = function(val, def, expected) {
+    if(val != undefined)
+    {
+      if(typeof val == expected) return val;
+      else return def;
+    }
+    else
+    {
+      return def;
+    }
 }
 
 module.exports = function(speed, data) {
-  
+
+   
   // no behaviour for missing parameters...
-  if(speed === undefined) return undefined;
+  if(speed == undefined || typeof speed != 'number') return undefined;
 
   // if we have no json we at least want to set up the 
   // data object. This allows valOrDefault() to work
   if(data === undefined) data = {};
 
-  var unit = valOrDefault(data.unit, 'kmh');
-  var getName = valOrDefault(data.getName, true);
+  var unit = valOrDefault(data.unit, 'kmh','string');
+  var getName = valOrDefault(data.getName, true,'boolean');
 
   var beauNum = undefined;
 
@@ -71,6 +86,10 @@ module.exports = function(speed, data) {
     case 'mps':
       speed *= 3.6;
       beauNum = numberFromKmh(speed);
+      break;
+    default:
+      beauNum = undefined;
+      break;
   }
 
   if(getName) return nameFromNumber(beauNum);
